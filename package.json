@@ -4,7 +4,7 @@
   "private": false,
   "scripts": {
     "android": "react-native run-android",
-    "build":  "cd android && ./gradlew assembleRelease && cd ..",
+    "build": "cd android && ./gradlew assembleRelease && cd ..",
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest"
@@ -12,7 +12,8 @@
   "dependencies": {
     "react": "18.2.0",
     "react-native": "0.72.5",
-    "react-native-dotenv": "^3.4.9"
+    "react-native-dotenv": "^3.4.9",
+    "react-native-swipe-gestures": "^1.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
