@@ -58,9 +58,9 @@ function App(): JSX.Element {
     height: Dimensions.get('screen').height,
   };
 
-  function saveMessage() {
+  function Message(text: string) {
     ToastAndroid.show(
-      "Counter has been saved",
+      text,
       ToastAndroid.SHORT,
     );
   }
@@ -77,7 +77,7 @@ function App(): JSX.Element {
         data: String(hej)
       })
     });
-    saveMessage();
+    Message('Count has been saved to database');
   }
 
   async function load() {
@@ -91,8 +91,15 @@ function App(): JSX.Element {
     });
     let data: any = await raw.json();
     if (data.count) {
+      let date = new Date(data.createdAt);
       setHej(Number(data.count));
+      Message(`Loaded count ${data.count} from \n ${date.toDateString()}`);
     }
+  }
+
+  async function clean() {
+    setHej(0);
+    Message('Count has been cleared');
   }
 
   return (
@@ -123,6 +130,13 @@ function App(): JSX.Element {
           >
             <Text style={[Types.warning, Sizes.medium, Components.button]}>
               load
+            </Text>
+          </Pressable>
+          <Pressable
+          onPress={() => {clean()}}
+          >
+            <Text style={[Types.danger, Sizes.medium, Components.button]}>
+              Clear
             </Text>
           </Pressable>
       </View>
