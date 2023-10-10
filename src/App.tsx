@@ -1,10 +1,4 @@
 /* eslint-disable prettier/prettier */
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
 
 import React, { useState} from 'react';
 import {
@@ -21,6 +15,8 @@ import {Colors} from './styles/vars';
 import { Sizes, Types } from './styles/button';
 import Components, { Flex } from './styles/global';
 import Button from './components/Button';
+import {API_TOKEN, API_URL} from '@env';
+
 
 const styles = StyleSheet.create({
   title: {
@@ -54,7 +50,7 @@ const styles = StyleSheet.create({
 });
 
 function App(): JSX.Element {
-  const [hey, setHey] = useState(0);
+  const [hej, setHej] = useState<any>(0);
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -69,13 +65,34 @@ function App(): JSX.Element {
     );
   }
 
-  function save() {
-    console.log(`saving hey count: ${hey}`);
+  async function save() {
+    await fetch(`${API_URL}/api/hey`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization : `Bearer ${API_TOKEN}`,
+      },
+      method: "POST",
+      body: JSON.stringify({
+        data: String(hej)
+      })
+    });
     saveMessage();
   }
 
-  function load() {
-    console.log('loading todays count');
+  async function load() {
+    let raw = await fetch(`${API_URL}/api/hey`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization : `Bearer ${API_TOKEN}`,
+      },
+      method: "GET",
+    });
+    let data: any = await raw.json();
+    if (data.count) {
+      setHej(Number(data.count));
+    }
   }
 
   return (
@@ -86,16 +103,16 @@ function App(): JSX.Element {
         </Button>
       </View>
       <View>
-        <Text style={styles.title}> THE ULTIMATE HEY! COUNTER </Text>
+        <Text style={styles.title}> THE ULTIMATE 'HEJ'! COUNTER </Text>
       </View>
       <View style={styles.count}>
           <Text style={styles.countText}>
-            {hey}
+            {hej}
           </Text>
       </View>
       <View style={styles.buttonView}>
           <Pressable
-          onPress={() => {setHey(hey+1)}}
+          onPress={() => {setHej(hej+1)}}
           >
             <Text style={[Types.primary, Sizes.x_large, Components.button]}>
               Add to count
