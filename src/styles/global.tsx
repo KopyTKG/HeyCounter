@@ -1,7 +1,8 @@
 /* eslint-disable quotes */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable prettier/prettier */
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
+import { Colors } from "./vars";
 
 const Components = StyleSheet.create({
     header: {
@@ -13,6 +14,34 @@ const Components = StyleSheet.create({
         borderRadius: 5,
         aspectRatio: 4 / 2,
     },
+    body: {
+        height: Dimensions.get('screen').height,
+        paddingVertical: 50,
+        backgroundColor: Colors.darkBlack,
+    },
+    login: {
+        width: Dimensions.get('screen').width,
+        height: Dimensions.get('screen').height,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 20,
+    },
+    input: {
+      width: Dimensions.get('screen').width-200,
+      backgroundColor: Colors.darkWhite,
+      color: Colors.darkBlack, 
+      borderColor: Colors.darkWhite,
+      borderRadius: 10, 
+      borderWidth: 2,
+      textAlign: 'center',
+    },
+    nav: {
+        padding:20,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+    }
 });
 
 const Flex = StyleSheet.create({

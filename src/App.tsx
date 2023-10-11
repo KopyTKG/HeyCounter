@@ -1,115 +1,84 @@
+/* eslint-disable no-sequences */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
 
-import React, { useState} from 'react';
-import {
-  Dimensions,
-  Pressable,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  ToastAndroid,
-  View,
-  useColorScheme,
-} from 'react-native';
-import {Colors} from './styles/vars';
+import React from 'react';
+import { useEffect, useState, useRef} from 'react';
+import StorageController from './controllers/storage.controller';
+import MainLayout from './components/app.layout';
+import { Pressable, SafeAreaView, Text, TextInput, View, ToastAndroid } from 'react-native';
 import { Sizes, Types } from './styles/button';
-import Components, { Flex } from './styles/global';
-import Button from './components/Button';
-
-const styles = StyleSheet.create({
-  title: {
-    width: 'auto',
-    height: 'auto',
-    fontSize: 40,
-    fontWeight: 'normal',
-    textAlign: 'center',
-  },
-  buttonView: {
-    width: Dimensions.get('screen').width,
-    height: 400,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 10,
-  },
-  count: {
-    width:  Dimensions.get('screen').width,
-    height: 'auto',
-    display: 'flex',
-    alignItems: 'center',
-    paddingVertical: 50,
-  },
-  countText: {
-    fontSize: 50,
-    width:150,
-    textAlign: 'center',
-    color: 'lightblue',
-  },
-});
+import Components from './styles/global';
+import MessageController from './controllers/message.controller';
 
 function App(): JSX.Element {
-  const [hey, setHey] = useState(0);
-  const isDarkMode = useColorScheme() === 'dark';
+  const [loggedIn, setStatus] = useState<boolean>(false);
+  const [text, setText] = useState<string>('');
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.lightBlack : Colors.darkWhite,
-    height: Dimensions.get('screen').height,
-  };
+  const Message = new MessageController(ToastAndroid.SHORT);
+  const storage = new StorageController('user');
 
-  function saveMessage() {
-    ToastAndroid.show(
-      "Counter has been saved",
-      ToastAndroid.SHORT,
+  async function login() {
+    if (text === '') {
+      Message.show('Please enter a username');
+      return setStatus(false);
+    } else {
+      storage.write(text)
+      .catch(e => {
+        console.debug(e);
+      })
+      .then(() => {
+        setStatus(true);
+        Message.show('Logged in as ' + text);
+      })
+    }
+  }
+
+
+  useEffect(() => {
+    storage.validate()
+    .catch(e => {
+      console.debug(e);
+    })
+    .then(status => {
+      if (status) {
+        setStatus(status);
+      }
+    })
+
+  }, [loggedIn]);
+
+  if (loggedIn) {
+    return (
+      <MainLayout 
+       setStatus={setStatus}
+       setText={setText}
+      />
+    );
+  } else {
+    return (
+      <SafeAreaView style={[Components.body, Components.login]}>
+        <TextInput 
+          placeholder='username' 
+          value={text} 
+          onChangeText={setText}
+          editable={true} 
+          keyboardType='default'
+          style={Components.input}
+         />
+      <Pressable onPress={() => {
+        login();
+      }}
+      >
+        <View>
+          <Text
+          style={[Components.button, Types.primary, Sizes.medium]}
+          > Login </Text>
+        </View>
+      </Pressable>
+      
+      </SafeAreaView>
     );
   }
-
-  function save() {
-    console.log(`saving hey count: ${hey}`);
-    saveMessage();
-  }
-
-  function load() {
-    console.log('loading todays count');
-  }
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <View style={[Components.header, Flex.end]}>
-        <Button style={[Types.secondary, Sizes.smaller, Components.button]} onPress={() => save()}>
-          save
-        </Button>
-      </View>
-      <View>
-        <Text style={styles.title}> THE ULTIMATE HEY! COUNTER </Text>
-      </View>
-      <View style={styles.count}>
-          <Text style={styles.countText}>
-            {hey}
-          </Text>
-      </View>
-      <View style={styles.buttonView}>
-          <Pressable
-          onPress={() => {setHey(hey+1)}}
-          >
-            <Text style={[Types.primary, Sizes.x_large, Components.button]}>
-              Add to count
-            </Text>
-          </Pressable>
-          <Pressable
-          onPress={() => {load()}}
-          >
-            <Text style={[Types.warning, Sizes.medium, Components.button]}>
-              load
-            </Text>
-          </Pressable>
-      </View>
-    </SafeAreaView>
-  );
 }
 export default App;
