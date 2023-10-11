@@ -87,6 +87,7 @@ function MainLayout(props: any) {
       setUser('');
       props.setStatus(false);
       props.setText('');
+      Message.show('Logged out');
     });
   }
   const navigationView = () => (
