@@ -18,6 +18,28 @@ const Components = StyleSheet.create({
         height: Dimensions.get('screen').height,
         paddingVertical: 50,
         backgroundColor: Colors.darkBlack,
+    },
+    login: {
+        width: Dimensions.get('screen').width,
+        height: Dimensions.get('screen').height,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 20,
+    },
+    input: {
+      width: Dimensions.get('screen').width-200,
+      backgroundColor: Colors.darkWhite,
+      color: Colors.darkBlack, 
+      borderColor: Colors.darkWhite,
+      borderRadius: 10, 
+      borderWidth: 2,
+      textAlign: 'center',
+    },
+    nav: {
+        width: Dimensions.get('screen').width - 20,
+        display: "flex",
+        padding: 5,
     }
 });
 
