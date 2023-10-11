@@ -37,9 +37,10 @@ const Components = StyleSheet.create({
       textAlign: 'center',
     },
     nav: {
-        width: Dimensions.get('screen').width - 20,
+        padding:20,
         display: "flex",
-        padding: 5,
+        flexDirection: "row",
+        justifyContent: "space-between",
     }
 });
 

@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable prettier/prettier */
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from 'react';
 import {
     Dimensions,
     DrawerLayoutAndroid,
@@ -18,8 +19,8 @@ import {API_TOKEN, API_URL} from '@env';
 import { Drawer } from '../styles/drawer';
 import MessageController from '../controllers/message.controller';
 import API from '../controllers/api.controller';
-import StorageController from "../controllers/storage.controller";
-import { Nav } from "../styles/nav";
+import StorageController from '../controllers/storage.controller';
+import Navbar from './navbar.layout';
 
 const styles = StyleSheet.create({
     title: {
@@ -51,9 +52,9 @@ const styles = StyleSheet.create({
       color: 'lightblue',
     },
   });
-  
 
-function MainLayout() {
+
+function MainLayout(props: any) {
   // states
   const [hej, setHej] = useState<any>(0);
   const [memory, setMemory] = useState<any>([]);
@@ -77,6 +78,17 @@ function MainLayout() {
     Message.show('Count has been cleared');
   }
 
+  async function logout() {
+    storage.delete()
+    .catch(e => {
+      console.debug(e);
+    })
+    .then(() => {
+      setUser('');
+      props.setStatus(false);
+      props.setText('');
+    });
+  }
   const navigationView = () => (
     <View style={Drawer.container}>
       <Text style={Drawer.title}> Data view</Text>
@@ -94,65 +106,63 @@ function MainLayout() {
     </View>
   );
 
-    useEffect(()=> {
-        storage.read()
-        .catch(e => {
-          console.debug(e);
-        })
-        .then(data => {
-          setUser(data);
-        })
-        api.get()
-        .catch(e => {
-          console.debug(e);
-        })
-        .then(data => {
-          setMemory([...data]);
-        })
-    },[])
+  useEffect(() => {
+    storage.read()
+    .catch(e => {
+      console.debug(e);
+    })
+    .then(data => {
+      setUser(data);
+    });
+    api.get()
+    .catch(e => {
+      console.debug(e);
+    })
+    .then(data => {
+      setMemory([...data]);
+    });
+  },[api, memory, storage]);
 
-    return(
-
-    <DrawerLayoutAndroid
-    ref={drawer}
-    drawerWidth={Dimensions.get('screen').width - 80}
-    drawerPosition='left'
-    renderNavigationView={navigationView}
-    >
-      <SafeAreaView
-      style={Components.body}
+    return (
+      <DrawerLayoutAndroid
+      ref={drawer}
+      drawerWidth={Dimensions.get('screen').width - 80}
+      drawerPosition="left"
+      renderNavigationView={navigationView}
       >
-        <View style={Components.nav}>
-            <Text style={Nav.user}>
-                {user}
-            </Text>
-        </View>
-        <View>
-          <Text style={styles.title}> THE ULTIMATE 'HEJ'! COUNTER </Text>
-        </View>
-        <View style={styles.count}>
-            <Text style={styles.countText}>
-              {hej}
-            </Text>
-        </View>
-        <View style={styles.buttonView}>
-            <Pressable
-            onPress={() => {save()}}
-            >
-              <Text style={[Types.primary, Sizes.x_large, Components.button]}>
-                Add to count
+        <SafeAreaView
+        style={Components.body}
+        >
+          <Navbar
+          user={user}
+          onPress={logout}
+          />
+          <View>
+            <Text style={styles.title}> THE ULTIMATE 'HEJ'! COUNTER </Text>
+          </View>
+          <View style={styles.count}>
+              <Text style={styles.countText}>
+                {hej}
               </Text>
-            </Pressable>
-            <Pressable
-            onPress={() => {clean()}}
-            >
-              <Text style={[Types.danger, Sizes.medium, Components.button]}>
-                Clear
-              </Text>
-            </Pressable>
-        </View>
-      </SafeAreaView>
-    </DrawerLayoutAndroid>
+          </View>
+          <View style={styles.buttonView}>
+              <Pressable
+              onPress={() => {save();}}
+              >
+                <Text style={[Types.primary, Sizes.x_large, Components.button]}>
+                  Add to count
+                </Text>
+              </Pressable>
+              <Pressable
+              onPress={() => {clean();}}
+              >
+                <Text style={[Types.danger, Sizes.medium, Components.button]}>
+                  Clear
+                </Text>
+              </Pressable>
+          </View>
+        </SafeAreaView>
+      </DrawerLayoutAndroid>
     );
 }
 

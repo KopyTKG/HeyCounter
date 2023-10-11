@@ -1,6 +1,6 @@
 {
   "name": "heycounter",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "private": false,
   "scripts": {
     "android": "react-native run-android",

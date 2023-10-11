@@ -43,7 +43,10 @@ function App(): JSX.Element {
 
   if (loggedIn) {
     return (
-      <MainLayout />
+      <MainLayout 
+       setStatus={setStatus}
+       setText={setText}
+      />
     );
   } else {
     return (

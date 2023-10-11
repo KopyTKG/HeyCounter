@@ -25,6 +25,14 @@ class StorageController {
         }
     }
 
+    public async delete() {
+        try {
+            await AsyncStorage.removeItem(this.key);
+        } catch (e) {
+            console.debug(e);
+        }
+    }
+
     public async validate(): Promise<boolean> {
         try {
             const data = await AsyncStorage.getItem(this.key);
