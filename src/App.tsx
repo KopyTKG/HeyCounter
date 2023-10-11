@@ -6,25 +6,32 @@ import React from 'react';
 import { useEffect, useState, useRef} from 'react';
 import StorageController from './controllers/storage.controller';
 import MainLayout from './components/app.layout';
-import { Pressable, SafeAreaView, Text, TextInput, View } from 'react-native';
+import { Pressable, SafeAreaView, Text, TextInput, View, ToastAndroid } from 'react-native';
 import { Sizes, Types } from './styles/button';
 import Components from './styles/global';
-
+import MessageController from './controllers/message.controller';
 
 function App(): JSX.Element {
   const [loggedIn, setStatus] = useState<boolean>(false);
   const [text, setText] = useState<string>('');
 
+  const Message = new MessageController(ToastAndroid.SHORT);
   const storage = new StorageController('user');
 
   async function login() {
-    storage.write(text)
-    .catch(e => {
-      console.debug(e);
-    })
-    .then(() => {
-      setStatus(true);
-    })
+    if (text === '') {
+      Message.show('Please enter a username');
+      return setStatus(false);
+    } else {
+      storage.write(text)
+      .catch(e => {
+        console.debug(e);
+      })
+      .then(() => {
+        setStatus(true);
+        Message.show('Logged in as ' + text);
+      })
+    }
   }
 
 
