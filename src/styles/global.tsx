@@ -1,7 +1,8 @@
 /* eslint-disable quotes */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable prettier/prettier */
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
+import { Colors } from "./vars";
 
 const Components = StyleSheet.create({
     header: {
@@ -13,6 +14,11 @@ const Components = StyleSheet.create({
         borderRadius: 5,
         aspectRatio: 4 / 2,
     },
+    body: {
+        height: Dimensions.get('screen').height,
+        paddingVertical: 50,
+        backgroundColor: Colors.darkBlack,
+    }
 });
 
 const Flex = StyleSheet.create({

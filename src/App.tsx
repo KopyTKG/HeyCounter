@@ -7,6 +7,7 @@ import {
   DrawerLayoutAndroid,
   Pressable,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   ToastAndroid,
@@ -15,9 +16,9 @@ import {
 } from 'react-native';
 import {Colors} from './styles/vars';
 import { Sizes, Types } from './styles/button';
-import Components, { Flex } from './styles/global';
-import Button from './components/Button';
+import Components from './styles/global';
 import {API_TOKEN, API_URL} from '@env';
+import { Drawer } from './styles/drawer';
 
 
 const styles = StyleSheet.create({
@@ -49,31 +50,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'lightblue',
   },
-  test: {
-    backgroundColor: 'black',
-    display: 'flex',
-    gap: 10,
-    width: Dimensions.get('screen').width - 80,
-    height: Dimensions.get('screen').height,
-    color: 'black',
-  },
-  tmp: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-  },
 });
 
 function App(): JSX.Element {
   const drawer = useRef<DrawerLayoutAndroid>(null);
   const [hej, setHej] = useState<any>(0);
   const [memory, setMemory] = useState<any>([]);
-  const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.lightBlack : Colors.darkWhite,
-    height: Dimensions.get('screen').height,
-  };
 
   function Message(text: string) {
     ToastAndroid.show(
@@ -83,6 +66,8 @@ function App(): JSX.Element {
   }
 
   async function save() {
+    setHej(hej + 1);
+
     await fetch(`${API_URL}/api/hey`, {
       headers: {
         Accept: "application/json",
@@ -90,11 +75,8 @@ function App(): JSX.Element {
         Authorization : `Bearer ${API_TOKEN}`,
       },
       method: "POST",
-      body: JSON.stringify({
-        data: String(hej)
-      })
+      body: JSON.stringify({})
     });
-    Message('Count has been saved to database');
   }
 
   async function load() {
@@ -120,24 +102,19 @@ function App(): JSX.Element {
   }
 
   const navigationView = () => (
-    <View style={styles.test}>
-      {memory.map((row) : any => {
-        return (
-          <Pressable
-          key={row.id}
-          onPress={() => {
-            console.log(row.id);
-          }}
-          >
-            <View style={styles.tmp}>
+    <View style={Drawer.container}>
+      <Text style={Drawer.title}> Data view</Text>
+      <ScrollView contentContainerStyle={Drawer.scroller}>
+        {memory.map((row: { id: React.Key | null | undefined; createdAt: string | number | Date; count: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) : any => {
+          return (
+            <View style={Drawer.record} key={row.id}>
               <Text>{new Date(row.createdAt).toDateString()}</Text>
-              <Text>{row.count}</Text>
-              <Text style={styles.time}>{new Date(row.createdAt).toTimeString()}</Text>
+              <Text style={Drawer.time}>{new Date(row.createdAt).toTimeString()}</Text>
             </View>
-          </Pressable>
-        );
-      })
-      }
+          );
+        })
+        }
+      </ScrollView>
     </View>
   );
 
@@ -149,7 +126,7 @@ function App(): JSX.Element {
         "Content-Type": "application/json",
         Authorization : `Bearer ${API_TOKEN}`,
       },
-      method: "PUT",
+      method: "GET",
     })
     .catch(e => {
       console.debug(e);
@@ -167,12 +144,9 @@ function App(): JSX.Element {
     drawerPosition='left'
     renderNavigationView={navigationView}
     >
-      <SafeAreaView style={backgroundStyle}>
-        <View style={[Components.header, Flex.end]}>
-          <Button style={[Types.secondary, Sizes.smaller, Components.button]} onPress={() => save()}>
-            save
-          </Button>
-        </View>
+      <SafeAreaView
+      style={Components.body}
+      >
         <View>
           <Text style={styles.title}> THE ULTIMATE 'HEJ'! COUNTER </Text>
         </View>
@@ -183,17 +157,10 @@ function App(): JSX.Element {
         </View>
         <View style={styles.buttonView}>
             <Pressable
-            onPress={() => {setHej(hej+1)}}
+            onPress={() => {save()}}
             >
               <Text style={[Types.primary, Sizes.x_large, Components.button]}>
                 Add to count
-              </Text>
-            </Pressable>
-            <Pressable
-            onPress={() => {load()}}
-            >
-              <Text style={[Types.warning, Sizes.medium, Components.button]}>
-                load latest
               </Text>
             </Pressable>
             <Pressable
