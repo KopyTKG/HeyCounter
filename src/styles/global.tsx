@@ -41,6 +41,18 @@ const Components = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
+    },
+    footer: {
+        width: Dimensions.get('screen').width,
+        height: 20,
+        position: 'absolute',
+        top: Dimensions.get('screen').height-100,
+        display: 'flex',
+        alignItems: 'center',
+    },
+    footerText: {
+        width: 150,
+        textAlign: 'center',
     }
 });
 
@@ -48,14 +60,17 @@ const Flex = StyleSheet.create({
     end: {
         display: 'flex',
         alignItems: 'flex-end',
+        flexDirection: 'column',
     },
     start: {
         display: 'flex',
-        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        flexDirection: 'column',
     },
     center: {
         display: 'flex',
         alignItems: 'center',
+        flexDirection: 'column',
     },
 });
 
