@@ -4,6 +4,9 @@
 <h3> Change log </h3>
 <h4>Latest - V 1.4.3</h4>
 <p>
+<b>Patch:</b> adding version number onto screen.
+</p>
+<p>
 Majore UI rework for login screen and better data drawer. On backend not much changed.
 </p> 
 
