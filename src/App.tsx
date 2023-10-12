@@ -10,6 +10,7 @@ import { Pressable, SafeAreaView, Text, TextInput, View, ToastAndroid } from 're
 import { Sizes, Types } from './styles/button';
 import Components from './styles/global';
 import MessageController from './controllers/message.controller';
+import Footer from './components/footer';
 
 function App(): JSX.Element {
   const [loggedIn, setStatus] = useState<boolean>(false);
@@ -76,7 +77,7 @@ function App(): JSX.Element {
           > Login </Text>
         </View>
       </Pressable>
-      
+      <Footer />
       </SafeAreaView>
     );
   }

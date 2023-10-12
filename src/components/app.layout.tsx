@@ -21,6 +21,7 @@ import MessageController from '../controllers/message.controller';
 import API from '../controllers/api.controller';
 import StorageController from '../controllers/storage.controller';
 import Navbar from './navbar.layout';
+import Footer from './footer';
 
 const styles = StyleSheet.create({
     title: {
@@ -66,6 +67,7 @@ function MainLayout(props: any) {
   // refs
   const drawer = useRef<DrawerLayoutAndroid>(null);
 
+  
   async function save() {
     let data = (await storage.read());
     setHej(hej + 1);
@@ -162,6 +164,7 @@ function MainLayout(props: any) {
                 </Text>
               </Pressable>
           </View>
+          <Footer />
         </SafeAreaView>
       </DrawerLayoutAndroid>
     );
