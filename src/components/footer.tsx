@@ -2,6 +2,7 @@
 /* eslint-disable prettier/prettier */
 import { Linking, Text, View } from 'react-native';
 import Components from '../styles/global';
+import {VERSION} from '@env';
 
 
 
@@ -14,7 +15,7 @@ export default function Footer() {
             }}
                 style={Components.footerText}
             >
-                &copy; thekrew.app {new Date().getFullYear()}
+                ({VERSION}) &copy; thekrew.app {new Date().getFullYear()}
             </Text>
         </View>
     );
