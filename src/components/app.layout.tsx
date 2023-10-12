@@ -22,6 +22,8 @@ import API from '../controllers/api.controller';
 import StorageController from '../controllers/storage.controller';
 import Navbar from './navbar.layout';
 import Footer from './footer';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import Record from './record';
 
 const styles = StyleSheet.create({
     title: {
@@ -96,12 +98,20 @@ function MainLayout(props: any) {
     <View style={Drawer.container}>
       <Text style={Drawer.title}> Data view</Text>
       <ScrollView contentContainerStyle={Drawer.scroller}>
-        {memory.map((row: { id: React.Key | null | undefined; createdAt: string | number | Date; count: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) : any => {
+        <Record 
+        user='user'
+        date='date'
+        time='time'
+        />
+        {memory.map((row: {
+          user: any; id: React.Key | null | undefined; createdAt: string | number | Date; count: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; 
+}) : any => {
           return (
-            <View style={Drawer.record} key={row.id}>
-              <Text>{new Date(row.createdAt).toDateString()}</Text>
-              <Text style={Drawer.time}>{new Date(row.createdAt).toTimeString()}</Text>
-            </View>
+            <Record key={row.id}
+            user={row.user}
+            date={new Date(row.createdAt).toLocaleDateString()}
+            time={new Date(row.createdAt).toLocaleTimeString()}
+            />
           );
         })
         }

@@ -8,7 +8,7 @@ import StorageController from './controllers/storage.controller';
 import MainLayout from './components/app.layout';
 import { Pressable, SafeAreaView, Text, TextInput, View, ToastAndroid } from 'react-native';
 import { Sizes, Types } from './styles/button';
-import Components from './styles/global';
+import Components, { Login } from './styles/global';
 import MessageController from './controllers/message.controller';
 import Footer from './components/footer';
 
@@ -58,25 +58,38 @@ function App(): JSX.Element {
     );
   } else {
     return (
-      <SafeAreaView style={[Components.body, Components.login]}>
-        <TextInput 
-          placeholder='username' 
-          value={text} 
-          onChangeText={setText}
-          editable={true} 
-          keyboardType='default'
-          style={Components.input}
-         />
-      <Pressable onPress={() => {
-        login();
-      }}
-      >
+      <SafeAreaView style={[Components.body]}>
         <View>
-          <Text
-          style={[Components.button, Types.primary, Sizes.medium]}
-          > Login </Text>
+          <Text style={Components.title}>
+          THE ULTIMATE 'HEJ'! COUNTER 
+          </Text>
+          <Text style={Components.subtitle}>
+            Keep track of how many times he sais 'hej'!
+          </Text>
         </View>
-      </Pressable>
+        <View style={Components.login}>
+          <Text style={Login.title}>
+            Select your username
+          </Text>
+          <TextInput 
+            placeholder='username' 
+            value={text} 
+            onChangeText={setText}
+            editable={true} 
+            keyboardType='default'
+            style={Components.input}
+            />
+          <Pressable onPress={() => {
+            login();
+          }}
+          >
+            <View>
+              <Text
+              style={[Components.button, Types.primary, Sizes.medium]}
+              > Login </Text>
+            </View>
+          </Pressable>
+        </View>
       <Footer />
       </SafeAreaView>
     );
