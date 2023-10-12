@@ -2,7 +2,11 @@
 
 
 <h3> Change log </h3>
-<h4>Latest - V 1.4.3</h4>
+<h4>Latest - V 1.4.4</h4>
+<p>
+Icons for app added.
+</p>
+<h4>V 1.4.3</h4>
 <p>
 <b>Patch:</b> adding version number onto screen.
 </p>
