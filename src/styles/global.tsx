@@ -21,7 +21,9 @@ const Components = StyleSheet.create({
     },
     login: {
         width: Dimensions.get('screen').width,
-        height: Dimensions.get('screen').height,
+        height: Dimensions.get('screen').height-300,
+        position: 'absolute',
+        top: 125,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -29,7 +31,7 @@ const Components = StyleSheet.create({
     },
     input: {
       width: Dimensions.get('screen').width-200,
-      backgroundColor: Colors.darkWhite,
+      backgroundColor: Colors.darkGray,
       color: Colors.darkBlack, 
       borderColor: Colors.darkWhite,
       borderRadius: 10, 
@@ -53,6 +55,21 @@ const Components = StyleSheet.create({
     footerText: {
         width: 150,
         textAlign: 'center',
+    },
+    title: {
+        width: Dimensions.get('screen').width,
+        fontSize: 30,
+        height: 100,
+        textAlign: 'center',
+        color: Colors.lightWhite,
+    },
+    subtitle: {
+        color: Colors.lightGray,
+        fontSize: 20,
+        width: Dimensions.get('screen').width - 100,
+        marginHorizontal: 50,
+        height: 50,
+        textAlign: 'center',
     }
 });
 
@@ -74,8 +91,16 @@ const Flex = StyleSheet.create({
     },
 });
 
+const Login = StyleSheet.create({
+    title: {
+        width: Dimensions.get('screen').width,
+        textAlign: 'center',
+    }
+})
+
 export default Components;
 export { 
     Flex,
+    Login
 };
 
